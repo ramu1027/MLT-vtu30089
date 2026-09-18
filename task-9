@@ -1,0 +1,189 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPvp8xpLyxyZNO6436c1RQp",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ramu1027/MLT-vtu30089/blob/main/task-9\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 4,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "tLmyfcGioTI-",
+        "outputId": "eaa1ae6e-095b-415b-9521-e32c89d057d2"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Epoch: 1\n",
+            "Input: [0 0] Target: 0 Prediction: 1 Error: -1\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 0 Error: 1\n",
+            "Weights: [0.1 0.1]\n",
+            "Bias: 0.0\n",
+            "\n",
+            "Epoch: 2\n",
+            "Input: [0 0] Target: 0 Prediction: 1 Error: -1\n",
+            "Input: [0 1] Target: 0 Prediction: 1 Error: -1\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 0 Error: 1\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.1\n",
+            "\n",
+            "Epoch: 3\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 1 Error: -1\n",
+            "Input: [1 0] Target: 0 Prediction: 1 Error: -1\n",
+            "Input: [1 1] Target: 1 Prediction: 0 Error: 1\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 4\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 5\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 6\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 7\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 8\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 9\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Epoch: 10\n",
+            "Input: [0 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [0 1] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 0] Target: 0 Prediction: 0 Error: 0\n",
+            "Input: [1 1] Target: 1 Prediction: 1 Error: 0\n",
+            "Weights: [0.2 0.1]\n",
+            "Bias: -0.20000000000000004\n",
+            "\n",
+            "Final Predictions:\n",
+            "------------------\n",
+            "Input: [0 0] Output: 0\n",
+            "Input: [0 1] Output: 0\n",
+            "Input: [1 0] Output: 0\n",
+            "Input: [1 1] Output: 1\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "import numpy as np\n",
+        "X = np.array([\n",
+        "    [0, 0],\n",
+        "    [0, 1],\n",
+        "    [1, 0],\n",
+        "    [1, 1]\n",
+        "])\n",
+        "y = np.array([0, 0, 0, 1])\n",
+        "weights = np.zeros(2)\n",
+        "bias = 0\n",
+        "learning_rate = 0.1\n",
+        "epochs = 10\n",
+        "def activation(x):\n",
+        "    if x >= 0:\n",
+        "        return 1\n",
+        "    else:\n",
+        "        return 0\n",
+        "for epoch in range(epochs):\n",
+        "    print(\"Epoch:\", epoch + 1)\n",
+        "    for i in range(len(X)):\n",
+        "        weighted_sum = np.dot(X[i], weights) + bias\n",
+        "        prediction = activation(weighted_sum)\n",
+        "        error = y[i] - prediction\n",
+        "        weights = weights + learning_rate * error * X[i]\n",
+        "        bias = bias + learning_rate * error\n",
+        "        print(\n",
+        "            \"Input:\", X[i],\n",
+        "            \"Target:\", y[i],\n",
+        "            \"Prediction:\", prediction,\n",
+        "            \"Error:\", error\n",
+        "        )\n",
+        "    print(\"Weights:\", weights)\n",
+        "    print(\"Bias:\", bias)\n",
+        "    print()\n",
+        "print(\"Final Predictions:\")\n",
+        "print(\"------------------\")\n",
+        "for i in range(len(X)):\n",
+        "    weighted_sum = np.dot(X[i], weights) + bias\n",
+        "    prediction = activation(weighted_sum)\n",
+        "    print(\"Input:\", X[i], \"Output:\", prediction)\n",
+        "\n",
+        ""
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "bEigDp1bp8U4"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
