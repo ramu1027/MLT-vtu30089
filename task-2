@@ -1,0 +1,151 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyM5Ef8Uck5lzcmKI8OVmB/7",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ramu1027/MLT-vtu30089/blob/main/task-2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 4,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3g4ZPVudzKHR",
+        "outputId": "7226b02f-3f25-483a-ddb9-7ababd6052a6"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Example 1 - Yes\n",
+            "S = [['Sunny', 'Warm', 'Normal', 'Strong']]\n",
+            "G = [['?', '?', '?', '?']]\n",
+            "\n",
+            "Example 2 - Yes\n",
+            "S = [['Sunny', 'Warm', '?', 'Strong']]\n",
+            "G = [['?', '?', '?', '?']]\n",
+            "\n",
+            "Example 3 - No\n",
+            "S = [['Sunny', 'Warm', '?', 'Strong']]\n",
+            "G = [['Sunny', '?', '?', '?'], ['?', 'Warm', '?', '?'], ['?', '?', 'Sunny', '?'], ['?', '?', 'Rainy', '?'], ['?', '?', 'Warm', '?'], ['?', '?', 'Cold', '?'], ['?', '?', 'Normal', '?'], ['?', '?', 'Strong', '?'], ['?', '?', 'Weak', '?']]\n",
+            "\n",
+            "Example 4 - Yes\n",
+            "S = [['Sunny', 'Warm', '?', '?']]\n",
+            "G = [['Sunny', '?', '?', '?'], ['?', 'Warm', '?', '?']]\n",
+            "\n",
+            "Final Specific Boundary: [['Sunny', 'Warm', '?', '?']]\n",
+            "Final General Boundary: [['Sunny', '?', '?', '?'], ['?', 'Warm', '?', '?']]\n"
+          ]
+        }
+      ],
+      "source": [
+        "data = [\n",
+        "    [\"Sunny\", \"Warm\", \"Normal\", \"Strong\", \"Yes\"],\n",
+        "    [\"Sunny\", \"Warm\", \"High\", \"Strong\", \"Yes\"],\n",
+        "    [\"Rainy\", \"Cold\", \"High\", \"Strong\", \"No\"],\n",
+        "    [\"Sunny\", \"Warm\", \"High\", \"Weak\", \"Yes\"]\n",
+        "]\n",
+        "\n",
+        "n = 4\n",
+        "\n",
+        "# Most specific and most general boundaries\n",
+        "S = [[\"Ø\"] * n]\n",
+        "G = [[\"?\"] * n]\n",
+        "\n",
+        "\n",
+        "def covers(h, x):\n",
+        "    return all(a == \"?\" or a == b for a, b in zip(h, x))\n",
+        "\n",
+        "\n",
+        "def generalize(s, x):\n",
+        "    result = s[:]\n",
+        "    for j in range(n):\n",
+        "        if result[j] == \"Ø\":\n",
+        "            result[j] = x[j]\n",
+        "        elif result[j] != x[j]:\n",
+        "            result[j] = \"?\"\n",
+        "    return result\n",
+        "\n",
+        "\n",
+        "def specialize(g, x, s):\n",
+        "    result = []\n",
+        "    for j in range(n):\n",
+        "        if g[j] == \"?\":\n",
+        "            for value in [\"Sunny\", \"Rainy\", \"Warm\", \"Cold\",\n",
+        "                          \"Normal\", \"High\", \"Strong\", \"Weak\"]:\n",
+        "                if value != x[j] and (\n",
+        "                    s[j] == \"Ø\" or s[j] == \"?\" or s[j] == value\n",
+        "                ):\n",
+        "                    h = g[:]\n",
+        "                    h[j] = value\n",
+        "                    result.append(h)\n",
+        "    return result\n",
+        "\n",
+        "\n",
+        "for i, row in enumerate(data):\n",
+        "    x = row[:n]\n",
+        "    label = row[n]\n",
+        "\n",
+        "    if label == \"Yes\":\n",
+        "        # Remove general hypotheses that do not cover x\n",
+        "        G = [g for g in G if covers(g, x)]\n",
+        "\n",
+        "        # Generalize specific hypotheses to cover x\n",
+        "        new_S = []\n",
+        "        for s in S:\n",
+        "            if covers(s, x):\n",
+        "                new_S.append(s)\n",
+        "            else:\n",
+        "                h = generalize(s, x)\n",
+        "                if any(covers(g, h) for g in G):\n",
+        "                    new_S.append(h)\n",
+        "        S = new_S\n",
+        "\n",
+        "    else:\n",
+        "        # Remove specific hypotheses covering negative example\n",
+        "        S = [s for s in S if not covers(s, x)]\n",
+        "\n",
+        "        # Specialize general hypotheses to exclude x\n",
+        "        new_G = []\n",
+        "        for g in G:\n",
+        "            if not covers(g, x):\n",
+        "                new_G.append(g)\n",
+        "            else:\n",
+        "                new_G.extend(specialize(g, x, S[0] if S else [\"Ø\"] * n))\n",
+        "        G = new_G\n",
+        "\n",
+        "    print(\"Example\", i + 1, \"-\", label)\n",
+        "    print(\"S =\", S)\n",
+        "    print(\"G =\", G)\n",
+        "    print()\n",
+        "\n",
+        "print(\"Final Specific Boundary:\", S)\n",
+        "print(\"Final General Boundary:\", G)"
+      ]
+    }
+  ]
+}
