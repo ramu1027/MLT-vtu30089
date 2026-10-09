@@ -1,0 +1,122 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOXtgmpRn0ngjoVV/bGdvWv",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ramu1027/MLT-vtu30089/blob/main/task-10\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 8,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3g4ZPVudzKHR",
+        "outputId": "6039f981-0980-43f2-f6a3-cd73acd00da6"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "===== GRID SEARCH =====\n",
+            "Best Grid Parameters: {'criterion': 'gini', 'max_depth': 4, 'min_samples_split': 2}\n",
+            "Best CV Accuracy: 0.9416666666666668\n",
+            "Grid Search Test Accuracy: 0.9333333333333333\n",
+            "\n",
+            "===== RANDOM SEARCH =====\n"
+          ]
+        }
+      ],
+      "source": [
+        "import random\n",
+        "from sklearn.datasets import load_iris\n",
+        "from sklearn.model_selection import (\n",
+        "    GridSearchCV, RandomizedSearchCV, train_test_split\n",
+        ")\n",
+        "from sklearn.tree import DecisionTreeClassifier\n",
+        "from sklearn.metrics import accuracy_score\n",
+        "\n",
+        "# 1. Load dataset\n",
+        "iris = load_iris()\n",
+        "X = iris.data\n",
+        "y = iris.target\n",
+        "\n",
+        "# 2. Split dataset\n",
+        "X_train, X_test, y_train, y_test = train_test_split(\n",
+        "    X, y, test_size=0.2, random_state=42, stratify=y\n",
+        ")\n",
+        "\n",
+        "# 3. Define model\n",
+        "model = DecisionTreeClassifier(random_state=42)\n",
+        "\n",
+        "# 4. GRID SEARCH\n",
+        "print(\"===== GRID SEARCH =====\")\n",
+        "\n",
+        "param_grid = {\n",
+        "    \"max_depth\": [2, 3, 4, 5, None],\n",
+        "    \"min_samples_split\": [2, 4, 6],\n",
+        "    \"criterion\": [\"gini\", \"entropy\"]\n",
+        "}\n",
+        "\n",
+        "grid_search = GridSearchCV(\n",
+        "    model,\n",
+        "    param_grid,\n",
+        "    cv=5,\n",
+        "    scoring=\"accuracy\",\n",
+        "    n_jobs=-1\n",
+        ")\n",
+        "\n",
+        "grid_search.fit(X_train, y_train)\n",
+        "\n",
+        "print(\"Best Grid Parameters:\", grid_search.best_params_)\n",
+        "print(\"Best CV Accuracy:\", grid_search.best_score_)\n",
+        "\n",
+        "grid_predictions = grid_search.best_estimator_.predict(X_test)\n",
+        "print(\"Grid Search Test Accuracy:\",\n",
+        "      accuracy_score(y_test, grid_predictions))\n",
+        "\n",
+        "# 5. RANDOM SEARCH\n",
+        "print(\"\\n===== RANDOM SEARCH =====\")\n",
+        "\n",
+        "param_random = {\n",
+        "    \"max_depth\": [2, 3, 4, 5, 6, None],\n",
+        "    \"min_samples_split\": [2, 3, 4, 5, 6, 8, 10],\n",
+        "    \"criterion\": [\"gini\", \"entropy\"]\n",
+        "}\n",
+        "\n",
+        "random_search = RandomizedSearchCV(\n",
+        "    model,\n",
+        "    param_distributions=param_random,\n",
+        "    n_iter=10,\n",
+        "    cv=5,\n",
+        "    scoring=\"accuracy\",\n",
+        "    random_state=42,\n",
+        "    n_jobs=-1\n",
+        ")\n"
+      ]
+    }
+  ]
+}
