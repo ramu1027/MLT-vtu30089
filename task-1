@@ -1,0 +1,80 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPpf+rtWsTTJWIeG1QEZFxR",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ramu1027/MLT-vtu30089/blob/main/task-1\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3g4ZPVudzKHR",
+        "outputId": "2b02bba9-69b5-482b-daa3-7e73b98f7689"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "After example 1: ['Sunny', 'Warm', 'Normal', 'Strong']\n",
+            "After example 2: ['Sunny', 'Warm', '?', 'Strong']\n",
+            "After example 4: ['Sunny', 'Warm', '?', '?']\n",
+            "\n",
+            "Final Most Specific Hypothesis:\n",
+            "['Sunny', 'Warm', '?', '?']\n"
+          ]
+        }
+      ],
+      "source": [
+        "data = [\n",
+        "    [\"Sunny\", \"Warm\", \"Normal\", \"Strong\", \"Yes\"],\n",
+        "    [\"Sunny\", \"Warm\", \"High\", \"Strong\", \"Yes\"],\n",
+        "    [\"Rainy\", \"Cold\", \"High\", \"Strong\", \"No\"],\n",
+        "    [\"Sunny\", \"Warm\", \"High\", \"Weak\", \"Yes\"]\n",
+        "]\n",
+        "\n",
+        "# Initialize hypothesis\n",
+        "h = [\"Ø\", \"Ø\", \"Ø\", \"Ø\"]\n",
+        "\n",
+        "# Find-S algorithm\n",
+        "for i, example in enumerate(data):\n",
+        "    if example[-1] == \"Yes\":\n",
+        "        for j in range(len(h)):\n",
+        "            if h[j] == \"Ø\":\n",
+        "                h[j] = example[j]\n",
+        "            elif h[j] != example[j]:\n",
+        "                h[j] = \"?\"\n",
+        "\n",
+        "        print(f\"After example {i+1}: {h}\")\n",
+        "\n",
+        "print(\"\\nFinal Most Specific Hypothesis:\")\n",
+        "print(h)\n"
+      ]
+    }
+  ]
+}
